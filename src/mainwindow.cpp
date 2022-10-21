@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
+Config extern_config;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -8,9 +9,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     this->setFocus(); // no defualt focus on widgets
+
+    config_handler = new ConfigHandler{ui};
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete config_handler;
 }
