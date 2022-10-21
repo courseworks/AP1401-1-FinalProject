@@ -24,6 +24,8 @@ qt_add_executable(Tron
     src/mainwindow.cpp
     include/mainwindow.h # for moc
     src/mainwindow.ui
+    src/config_handler.cpp
+    include/config_handler.h # for moc
 )
 
 target_link_libraries(Tron PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network Qt${QT_VERSION_MAJOR}::OpenGLWidgets)
