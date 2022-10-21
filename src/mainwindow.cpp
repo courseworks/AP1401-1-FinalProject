@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->setFocus(); // no defualt focus on widgets
 }
 
 MainWindow::~MainWindow()
