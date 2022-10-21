@@ -51,7 +51,7 @@ QGroupBox::title {
 
 QLabel {
     border: 2px dashed black;
-    padding: 2px;
+    padding: 3px;
     border-radius: 3px;
 	font: bold 13px;
 }
@@ -59,7 +59,7 @@ QLabel {
 QLineEdit {
     border: 2px dashed black;
     border-radius: 3px;
-    padding: 0 8px;
+    padding: 2 8px;
     background: rgb(214, 214, 214);
     selection-background-color: darkgray;
 }
@@ -67,27 +67,37 @@ QLineEdit {
 QPushButton {
     background-color: rgb(107, 255, 10);
     border: 2px solid black;
-    border-radius: 14px;
-    font: bold 14px;
-    padding: 6px;
+    border-radius: 10px;
+    font: bold 12px;
+    padding: 4px;
 }
 QPushButton:hover {
     background-color: rgb(15, 172, 0);
     border: 2px solid black;
-    border-radius: 14px;
-    font: bold 14px;
-    padding: 6px;
+    border-radius: 10px;
+    font: bold 12px;
+    padding: 4px;
 }
 QPushButton:pressed {
     background-color: rgb(15, 172, 0);
     border: 3px solid black;
-    border-radius: 14px;
-    font: bold 15px;
-    padding: 6px;
+    border-radius: 10px;
+    font: bold 13px;
+    padding: 4px;
+}
+
+QCheckBox {
+    spacing: 10px;
+    border: 2px dashed black;
+	padding: 0 3 0 3;
+
+}
+
+QCheckBox::indicator {
 }
 </string>
       </property>
-      <layout class="QGridLayout" name="gridLayout_6" rowstretch="6,1,6,1,3,1,6,1,6,1,1,1,1">
+      <layout class="QGridLayout" name="gridLayout_6" rowstretch="20,20,10,30,30,5,10,10,10">
        <property name="leftMargin">
         <number>0</number>
        </property>
@@ -100,12 +110,148 @@ QPushButton:pressed {
        <property name="bottomMargin">
         <number>0</number>
        </property>
+       <item row="2" column="0">
+        <widget class="QGroupBox" name="groupBox_3">
+         <property name="title">
+          <string>Command</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_3">
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineEdit_command_ip"/>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>IP</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QGroupBox" name="groupBox_4">
+         <property name="title">
+          <string>Blue Team</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_4">
+          <property name="verticalSpacing">
+           <number>4</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>Name</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineEdit_blueteam_name"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>Port</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="lineEdit_blueteam_port"/>
+          </item>
+          <item row="2" column="0" colspan="2">
+           <widget class="QCheckBox" name="checkBox_blueteam_handy">
+            <property name="text">
+             <string>control with arrow keys</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QPushButton" name="pushButton_resetgame">
+         <property name="text">
+          <string>Reset Game</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QPushButton" name="pushButton_resetround">
+         <property name="text">
+          <string>Reset Round</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QGroupBox" name="groupBox_5">
+         <property name="title">
+          <string>Blue Team</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <property name="verticalSpacing">
+           <number>4</number>
+          </property>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_9">
+            <property name="text">
+             <string>Port</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="lineEdit_redteam_port"/>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_8">
+            <property name="text">
+             <string>Name</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineEdit_redteam_name"/>
+          </item>
+          <item row="2" column="0" colspan="2">
+           <widget class="QCheckBox" name="checkBox_redteam_handy">
+            <property name="text">
+             <string>control with w,s,a,d</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="0">
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
           <string>Field</string>
          </property>
          <layout class="QGridLayout" name="gridLayout">
+          <property name="verticalSpacing">
+           <number>4</number>
+          </property>
           <item row="0" column="1">
            <widget class="QLineEdit" name="lineEdit_field_cellnum"/>
           </item>
@@ -135,25 +281,22 @@ QPushButton:pressed {
          </layout>
         </widget>
        </item>
-       <item row="1" column="0">
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
+       <item row="6" column="0">
+        <widget class="QPushButton" name="pushButton_start_stop">
+         <property name="text">
+          <string>Start</string>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>198</width>
-           <height>2</height>
-          </size>
-         </property>
-        </spacer>
+        </widget>
        </item>
-       <item row="2" column="0">
+       <item row="1" column="0">
         <widget class="QGroupBox" name="groupBox_2">
          <property name="title">
           <string>Broadcast</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_2">
+          <property name="verticalSpacing">
+           <number>4</number>
+          </property>
           <item row="0" column="0">
            <widget class="QLabel" name="label_3">
             <property name="text">
@@ -181,165 +324,6 @@ QPushButton:pressed {
            <widget class="QLineEdit" name="lineEdit_broadcast_port"/>
           </item>
          </layout>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>198</width>
-           <height>2</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="4" column="0">
-        <widget class="QGroupBox" name="groupBox_3">
-         <property name="title">
-          <string>Command</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_3">
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="lineEdit_command_ip"/>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_5">
-            <property name="text">
-             <string>IP</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <spacer name="verticalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>198</width>
-           <height>2</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="6" column="0">
-        <widget class="QGroupBox" name="groupBox_4">
-         <property name="title">
-          <string>Blue Team</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_4">
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_6">
-            <property name="text">
-             <string>Name</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="lineEdit_blueteam_name"/>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_7">
-            <property name="text">
-             <string>Port</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="lineEdit_blueteam_port"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="7" column="0">
-        <spacer name="verticalSpacer_4">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>198</width>
-           <height>2</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="8" column="0">
-        <widget class="QGroupBox" name="groupBox_5">
-         <property name="title">
-          <string>Blue Team</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_5">
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_8">
-            <property name="text">
-             <string>Name</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="lineEdit_redteam_name"/>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_9">
-            <property name="text">
-             <string>Port</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="lineEdit_redteam_port"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="9" column="0">
-        <widget class="Line" name="line">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="0">
-        <widget class="QPushButton" name="pushButton_start_stop">
-         <property name="text">
-          <string>Start</string>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="0">
-        <widget class="QPushButton" name="pushButton_resetround">
-         <property name="text">
-          <string>Reset Round</string>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="0">
-        <widget class="QPushButton" name="pushButton_resetgame">
-         <property name="text">
-          <string>Reset Game</string>
-         </property>
         </widget>
        </item>
       </layout>
