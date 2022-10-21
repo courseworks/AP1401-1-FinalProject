@@ -1,6 +1,9 @@
 # Cmake Build Directory
 build/
 
+# VSCode directory
+.vscode/
+
 # MacOS
 .DS_Store
 
