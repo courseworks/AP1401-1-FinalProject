@@ -1,6 +1,5 @@
 #include "config_handler.h"
 
-
 ConfigHandler::ConfigHandler(Ui::MainWindow*& ui, QObject *parent) : QObject{parent}, ui{ui}
 {
     connect(ui->lineEdit_field_cellnum, &QLineEdit::editingFinished, this, &ConfigHandler::handle_field_cellnum);
@@ -14,6 +13,37 @@ ConfigHandler::ConfigHandler(Ui::MainWindow*& ui, QObject *parent) : QObject{par
     connect(ui->lineEdit_redteam_name, &QLineEdit::editingFinished, this, &ConfigHandler::handle_redteam_name);
     connect(ui->lineEdit_redteam_port, &QLineEdit::editingFinished, this, &ConfigHandler::handle_redteam_port);
     connect(ui->checkBox_redteam_handy, &QCheckBox::stateChanged, this, &ConfigHandler::handle_redteam_handy);
+
+
+    ui->lineEdit_field_cellnum->setText("32");
+    ui->lineEdit_field_cellwidth->setText("15.0");
+    ui->lineEdit_broadcast_ip->setText("255.255.255.255");
+    ui->lineEdit_broadcast_port->setText("1234");
+
+    const QHostAddress &localhost = QHostAddress(QHostAddress::LocalHost);
+    for (const QHostAddress &address: QNetworkInterface::allAddresses())
+        if (address.protocol() == QAbstractSocket::IPv4Protocol && address != localhost)
+            ui->lineEdit_command_ip->setText(address.toString());
+    
+    ui->lineEdit_blueteam_name->setText("BLUE");
+    ui->lineEdit_blueteam_port->setText("1235");
+    ui->checkBox_blueteam_handy->setChecked(false);
+    ui->lineEdit_redteam_name->setText("RED");
+    ui->lineEdit_redteam_port->setText("1236");
+    ui->checkBox_redteam_handy->setChecked(false);
+
+    emit ui->lineEdit_field_cellnum->editingFinished();
+    emit ui->lineEdit_field_cellwidth->editingFinished();
+    emit ui->lineEdit_broadcast_ip->editingFinished();
+    emit ui->lineEdit_broadcast_port->editingFinished();
+    emit ui->lineEdit_command_ip->editingFinished();
+    emit ui->lineEdit_blueteam_name->editingFinished();
+    emit ui->lineEdit_blueteam_port->editingFinished();
+    emit ui->checkBox_blueteam_handy->stateChanged(ui->checkBox_blueteam_handy->isChecked());
+    emit ui->lineEdit_redteam_name->editingFinished();
+    emit ui->lineEdit_redteam_port->editingFinished();
+    emit ui->checkBox_redteam_handy->stateChanged(ui->checkBox_redteam_handy->isChecked());
+
 }
 
 ConfigHandler::~ConfigHandler()

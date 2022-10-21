@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QIntValidator>
+#include <QHostAddress>
+#include <QNetworkInterface>
 #include <string>
 #include <sstream>
 #include "../src/ui_mainwindow.h"
