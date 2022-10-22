@@ -15,7 +15,7 @@ ConfigHandler::ConfigHandler(Ui::MainWindow*& ui, QObject *parent) : QObject{par
     connect(ui->checkBox_redteam_handy, &QCheckBox::stateChanged, this, &ConfigHandler::handle_redteam_handy);
 
 
-    ui->lineEdit_field_cellnum->setText("32");
+    ui->lineEdit_field_cellnum->setText("43");
     ui->lineEdit_field_cellwidth->setText("15.0");
     ui->lineEdit_broadcast_ip->setText("255.255.255.255");
     ui->lineEdit_broadcast_port->setText("1234");

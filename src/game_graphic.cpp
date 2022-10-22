@@ -7,8 +7,6 @@ GameGraphic::GameGraphic(QOpenGLWidget* parent) :
 {
     painter = new QPainter{};
     scale_ratio = 1;
-
-    board_length = extern_config.field_cellnum*extern_config.field_cellwidth;
 }
 
 GameGraphic::~GameGraphic()
