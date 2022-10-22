@@ -2,6 +2,9 @@
 #define EXTERN_H
 
 #include <QString>
+#include <QPoint>
+
+using Board = QVector<QVector<int>>;
 
 struct Config
 {
@@ -25,7 +28,11 @@ struct Config
 
 struct WorldModel
 {
-
+    Board board;
+    QPoint blue_startpos;
+    QPoint red_startpos;
+    int blue_score;
+    int red_score;
 };
 
 enum class GameState {Running = 0, Pause = 1, WitingForClients = 2};

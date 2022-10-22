@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <QObject>
+#include "extern.h"
 
 class Game : public QObject
 {
