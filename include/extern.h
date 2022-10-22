@@ -6,6 +6,7 @@
 
 using Board = QVector<QVector<int>>;
 
+// config
 struct Config
 {
     int field_cellnum;
@@ -26,15 +27,24 @@ struct Config
 
 };
 
+// worldmodel
+enum class Direction {Up = 0, Right = 1, Down = 2, Left = 3};
+struct Tron
+{
+    QPoint head;
+    QPoint tail;
+    Direction dir;
+    int score;
+};
+
 struct WorldModel
 {
     Board board;
-    QPoint blue_startpos;
-    QPoint red_startpos;
-    int blue_score;
-    int red_score;
+    Tron blue;
+    Tron red;
 };
 
+// game state
 enum class GameState {Running = 0, Pause = 1, WitingForClients = 2};
 
 extern Config extern_config;
