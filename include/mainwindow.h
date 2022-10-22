@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "extern.h"
 #include "config_handler.h"
+#include "game.h"
 
 // forward declaration
 QT_BEGIN_NAMESPACE
@@ -21,6 +22,10 @@ public:
 private:
     Ui::MainWindow *ui;
     ConfigHandler* config_handler;
+    Game* game;
+
+public slots:
+    void handle_round_finished();
 
 };
 
