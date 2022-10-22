@@ -13,10 +13,38 @@ MainWindow::MainWindow(QWidget *parent)
     this->setFocus(); // no defualt focus on widgets
 
     config_handler = new ConfigHandler{ui};
+
+    connect(ui->pushButton_start_stop, &QPushButton::clicked, this, &MainWindow::handle_start_stop);
+    connect(ui->pushButton_resetround, &QPushButton::clicked, this, &MainWindow::handle_reset_round);
+    connect(ui->pushButton_resetgame, &QPushButton::clicked, this, &MainWindow::handle_reset_game);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
     delete config_handler;
+}
+
+void MainWindow::handle_start_stop()
+{
+    if(ui->pushButton_start_stop->text().toUpper() == "START")
+    {
+        ui->pushButton_start_stop->setText("Pause");
+        extern_gamestate = GameState::Running;
+    }
+    else
+    {
+        ui->pushButton_start_stop->setText("Start");
+        extern_gamestate = GameState::Pause;
+    }
+}
+void MainWindow::handle_reset_round()
+{
+    ui->pushButton_start_stop->setText("Start");
+    extern_gamestate = GameState::Pause;
+}
+void MainWindow::handle_reset_game()
+{
+    ui->pushButton_start_stop->setText("Start");
+    extern_gamestate = GameState::Pause;
 }
