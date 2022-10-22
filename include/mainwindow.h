@@ -26,6 +26,10 @@ private:
 
 public slots:
     void handle_round_finished();
+    // pushbuttons
+    void handle_start_stop();
+    void handle_reset_round();
+    void handle_reset_game();
 
 };
 

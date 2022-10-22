@@ -41,10 +41,6 @@ private:
     static bool valid_part(char* s);
     static bool is_valid_ip(const QString& ip);
 
-    void handle_start_stop();
-    void handle_reset_round();
-    void handle_reset_game();
-
 
 private slots:
 

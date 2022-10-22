@@ -446,7 +446,7 @@ QCheckBox::indicator {
        <item row="4" column="0">
         <widget class="QGroupBox" name="groupBox_5">
          <property name="title">
-          <string>Blue Team</string>
+          <string>Red Team</string>
          </property>
          <layout class="QGridLayout" name="gridLayout_5">
           <property name="verticalSpacing">
