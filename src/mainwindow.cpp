@@ -2,6 +2,8 @@
 #include "./ui_mainwindow.h"
 
 Config extern_config;
+WorldModel extern_wm;
+GameState extern_gamestate;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
