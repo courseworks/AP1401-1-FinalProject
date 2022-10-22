@@ -37,6 +37,18 @@ struct Tron
     int score;
 };
 
+inline QString dir_to_text(Direction dir)
+{
+    if(dir == Direction::Up)
+        return "Up";
+    if(dir == Direction::Right)
+        return "Right";
+    if(dir == Direction::Down)
+        return "Down";
+    // left
+        return "Left";
+}
+
 struct WorldModel
 {
     Board board;
