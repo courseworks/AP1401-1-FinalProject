@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     // timer
     simulator_timer = new QTimer{};
     connect(simulator_timer, &QTimer::timeout, this, &MainWindow::handle_simulator_timer);
-    step_time = 200;
+    step_time = 100;
     simulator_timer->start(step_time);
 }
 
@@ -58,6 +58,7 @@ void MainWindow::handle_round_finished()
 
 void MainWindow::handle_start_stop()
 {
+    this->setFocus();
     if(ui->pushButton_start_stop->text().toUpper() == "START")
     {
         ui->pushButton_start_stop->setText("Pause");
@@ -117,4 +118,25 @@ void MainWindow::showEvent(QShowEvent* event)
     // correcting gameview initial size
     int min = std::min(ui->widget_game->size().width(), ui->widget_game->size().height());
     game_graphic->setMaximumSize(min, min);
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if(event->key() == Qt::Key_Up)
+        extern_wm.blue.dir = Direction::Up;
+    else if(event->key() == Qt::Key_Right)
+        extern_wm.blue.dir = Direction::Right;
+    else if(event->key() == Qt::Key_Down)
+        extern_wm.blue.dir = Direction::Down;
+    else if(event->key() == Qt::Key_Left)
+        extern_wm.blue.dir = Direction::Left;
+
+    if(event->key() == Qt::Key_W)
+        extern_wm.red.dir = Direction::Up;
+    else if(event->key() == Qt::Key_D)
+        extern_wm.red.dir = Direction::Right;
+    else if(event->key() == Qt::Key_S)
+        extern_wm.red.dir = Direction::Down;
+    else if(event->key() == Qt::Key_A)
+        extern_wm.red.dir = Direction::Left;
 }

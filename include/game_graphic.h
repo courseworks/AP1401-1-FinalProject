@@ -19,7 +19,7 @@ private:
     QPainter* painter;
     double scale_ratio;
 
-    QPointF CVT(int i, int j) {return QPointF{j*cell_width - (cell_width*cell_num)/2, i*cell_width - (cell_width*cell_num)/2};}
+    QPointF CVT(int i, int j) {return QPointF{j*cell_width - (cell_width*cell_num)/2, -i*cell_width + (cell_width*cell_num)/2};}
 
     Board& board;
     int& cell_num;

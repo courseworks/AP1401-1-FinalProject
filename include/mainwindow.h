@@ -32,6 +32,8 @@ private:
     GameGraphic* game_graphic;
     QGridLayout* layout_game_graphic;
 
+
+
 public slots:
     void handle_round_finished();
     // pushbuttons
@@ -44,6 +46,7 @@ public slots:
 private slots:
     void resizeEvent(QResizeEvent* event) override;
     void showEvent(QShowEvent* event) override;
+    void keyPressEvent(QKeyEvent *event) override;
 
 };
 
