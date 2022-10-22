@@ -17,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent)
     game->reset_game();
     connect(game, &Game::round_finished, this, &MainWindow::handle_round_finished);
     is_round_finished = false;
+    // ui->label_blueteam_score->setText(QString::number(extern_wm.blue.score));
+    // ui->label_redteam_score->setText(QString::number(extern_wm.red.score));
 
     // pushbuttons
     connect(ui->pushButton_start_stop, &QPushButton::clicked, this, &MainWindow::handle_start_stop);
@@ -40,8 +42,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::handle_round_finished()
 {
-    is_round_finished = true;
+    simulator_timer->stop();
     game->reset_round();
+    ui->label_blueteam_score->setText(QString::number(extern_wm.blue.score));
+    ui->label_redteam_score->setText(QString::number(extern_wm.red.score));
+    // QThread::sleep(1);
+    simulator_timer->start(step_time);
 }
 
 void MainWindow::handle_start_stop()
@@ -74,19 +80,14 @@ void MainWindow::handle_reset_game()
 
 void MainWindow::handle_simulator_timer()
 {
-    simulator_timer->stop();
     if(extern_gamestate == GameState::Pause) return;
-    if(is_round_finished)
-    {
-        is_round_finished = false;
-        ui->label_blueteam_score->setText(QString::number(extern_wm.blue.score));
-        ui->label_redteam_score->setText(QString::number(extern_wm.red.score));
-        QThread::sleep(1);
-    }
+    simulator_timer->stop();
+
     ui->label_blueteam_dir->setText(dir_to_text(extern_wm.blue.dir));
     ui->label_redteam_dir->setText(dir_to_text(extern_wm.red.dir));
 
     game->step();
+    // game->print_board();
 
     simulator_timer->start(step_time);
 }

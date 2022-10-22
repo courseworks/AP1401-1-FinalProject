@@ -2,7 +2,8 @@
 
 Game::Game(QObject* parent) : QObject{parent}
 {
-
+    extern_wm.blue.score = 0;
+    extern_wm.red.score = 0;
 }
 
 Game::~Game()
@@ -33,14 +34,12 @@ void Game::create_board()
     blue.head = blue.tail;
     board[blue.head.x()][blue.head.y()] = 1;
     blue.dir = Direction::Right; // or static_cast<Direction>(1)
-    blue.score = 0;
 
     // initialize red tron
     red.tail = QPoint{cell_num/2, cell_num/2 - 2};
     red.head = red.tail;
     board[red.head.x()][red.head.y()] = 2;
     red.dir = Direction::Left; // or static_cast<Direction>(3)
-    red.score = 0;
 
 }
 
@@ -91,22 +90,26 @@ void Game::step()
     else //Left
         red.head = red.head + QPoint{0, -1};
 
+    bool is_finished = false;
     if(blue.head == red.head)
     {
         blue.score++; red.score++;
-        emit round_finished();
+        is_finished = true;
+        return;
     }
     if(board[blue.head.x()][blue.head.y()] != 0)
     {
         red.score++;
-        emit round_finished();
+        is_finished = true;
     }
     if(board[red.head.x()][red.head.y()] != 0)
     {
         blue.score++;
-        emit round_finished();
+        is_finished = true;
     }
 
     board[blue.head.x()][blue.head.y()] = 1;
-    board[red.head.x()][red.head.y()] = 2;    
+    board[red.head.x()][red.head.y()] = 2;  
+
+    if(is_finished) emit round_finished();  
 }
