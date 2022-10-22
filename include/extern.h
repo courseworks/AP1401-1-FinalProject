@@ -28,7 +28,7 @@ struct WorldModel
 
 };
 
-enum class GameState {Running = 0, Pause = 1, WAitingForClient = 2};
+enum class GameState {Running = 0, Pause = 1, WitingForClients = 2};
 
 extern Config extern_config;
 extern WorldModel extern_wm;
