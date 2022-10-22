@@ -44,6 +44,11 @@ ConfigHandler::ConfigHandler(Ui::MainWindow*& ui, QObject *parent) : QObject{par
     emit ui->lineEdit_redteam_port->editingFinished();
     emit ui->checkBox_redteam_handy->stateChanged(ui->checkBox_redteam_handy->isChecked());
 
+    // pushbuttons
+    connect(ui->pushButton_start_stop, &QPushButton::clicked, this, &ConfigHandler::handle_start_stop);
+    connect(ui->pushButton_resetround, &QPushButton::clicked, this, &ConfigHandler::handle_reset_round);
+    connect(ui->pushButton_resetgame, &QPushButton::clicked, this, &ConfigHandler::handle_reset_game);
+
 }
 
 ConfigHandler::~ConfigHandler()
@@ -196,4 +201,28 @@ bool ConfigHandler::is_valid_ip(const QString& ip)
     if (dots != 3)
         return false;
     return true;
+}
+
+void ConfigHandler::handle_start_stop()
+{
+    if(ui->pushButton_start_stop->text().toUpper() == "START")
+    {
+        ui->pushButton_start_stop->setText("Pause");
+        extern_gamestate = GameState::Running;
+    }
+    else
+    {
+        ui->pushButton_start_stop->setText("Start");
+        extern_gamestate = GameState::Pause;
+    }
+}
+void ConfigHandler::handle_reset_round()
+{
+    ui->pushButton_start_stop->setText("Start");
+    extern_gamestate = GameState::Pause;
+}
+void ConfigHandler::handle_reset_game()
+{
+    ui->pushButton_start_stop->setText("Start");
+    extern_gamestate = GameState::Pause;
 }

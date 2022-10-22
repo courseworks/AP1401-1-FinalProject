@@ -22,10 +22,6 @@ private:
     Ui::MainWindow *ui;
     ConfigHandler* config_handler;
 
-public slots:
-    void handle_start_stop();
-    void handle_reset_round();
-    void handle_reset_game();
 };
 
 
