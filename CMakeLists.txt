@@ -28,6 +28,8 @@ qt_add_executable(Tron
     include/config_handler.h # for moc
     src/game.cpp
     include/game.h # for moc
+    src/game_graphic.cpp
+    include/game_graphic.h # for moc
 )
 
 target_link_libraries(Tron PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network Qt${QT_VERSION_MAJOR}::OpenGLWidgets)

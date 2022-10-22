@@ -7,6 +7,7 @@
 #include "extern.h"
 #include "config_handler.h"
 #include "game.h"
+#include "game_graphic.h"
 
 // forward declaration
 QT_BEGIN_NAMESPACE
@@ -28,7 +29,8 @@ private:
     QTimer* simulator_timer;
     int step_time;
 
-    bool is_round_finished;
+    GameGraphic* game_graphic;
+    QGridLayout* layout_game_graphic;
 
 public slots:
     void handle_round_finished();
@@ -38,6 +40,10 @@ public slots:
     void handle_reset_game();
     // timer
     void handle_simulator_timer();
+
+private slots:
+    void resizeEvent(QResizeEvent* event) override;
+    void showEvent(QShowEvent* event) override;
 
 };
 

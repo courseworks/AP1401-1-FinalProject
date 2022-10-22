@@ -83,7 +83,7 @@ QLabel#label_blueteam_score
 	background: rgba(0, 150, 255, 97);
     padding: 7px;
     border-radius: 16px;
-	font: bold 18px;
+	font: bold 28px;
 }
 QLabel#label_redteam_score
 {
@@ -91,7 +91,7 @@ QLabel#label_redteam_score
 	background: rgba(255, 38, 0, 97);
     padding: 7px;
     border-radius: 16px;
-	font: bold 18px;
+	font: bold 28px;
 }
 </string>
       </property>
@@ -99,7 +99,7 @@ QLabel#label_redteam_score
        <item row="5" column="0" colspan="2">
         <widget class="QLabel" name="label_blueteam_score">
          <property name="text">
-          <string>Blue Team Score</string>
+          <string>Score</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -211,7 +211,7 @@ QLabel#label_redteam_score
        <item row="7" column="0" colspan="2">
         <widget class="QLabel" name="label_redteam_score">
          <property name="text">
-          <string>Red Team Score</string>
+          <string>Score</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>

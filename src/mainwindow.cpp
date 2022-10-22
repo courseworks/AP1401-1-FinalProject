@@ -3,7 +3,7 @@
 
 Config extern_config;
 WorldModel extern_wm;
-GameState extern_gamestate;
+GameState extern_gamestate = GameState::Pause;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,9 +16,13 @@ MainWindow::MainWindow(QWidget *parent)
     game = new Game{};
     game->reset_game();
     connect(game, &Game::round_finished, this, &MainWindow::handle_round_finished);
-    is_round_finished = false;
-    // ui->label_blueteam_score->setText(QString::number(extern_wm.blue.score));
-    // ui->label_redteam_score->setText(QString::number(extern_wm.red.score));
+
+    game_graphic = new GameGraphic{};
+    layout_game_graphic = new QGridLayout{ui->widget_game};
+    ui->widget_game->setContentsMargins(0, 0, 0, 0);
+    layout_game_graphic->setSpacing(0);
+    layout_game_graphic->setContentsMargins(0, 0, 0, 0);
+    layout_game_graphic->addWidget(game_graphic);
 
     // pushbuttons
     connect(ui->pushButton_start_stop, &QPushButton::clicked, this, &MainWindow::handle_start_stop);
@@ -38,14 +42,16 @@ MainWindow::~MainWindow()
     delete config_handler;
     delete game;
     delete simulator_timer;
+    delete game_graphic;
 }
 
 void MainWindow::handle_round_finished()
 {
     simulator_timer->stop();
-    game->reset_round();
     ui->label_blueteam_score->setText(QString::number(extern_wm.blue.score));
     ui->label_redteam_score->setText(QString::number(extern_wm.red.score));
+    game_graphic->redraw();
+    game->reset_round();
     // QThread::sleep(1);
     simulator_timer->start(step_time);
 }
@@ -69,6 +75,7 @@ void MainWindow::handle_reset_round()
     ui->pushButton_start_stop->setText("Start");
     extern_gamestate = GameState::Pause;
     game->reset_round();
+    game_graphic->redraw();
 }
 
 void MainWindow::handle_reset_game()
@@ -76,6 +83,9 @@ void MainWindow::handle_reset_game()
     ui->pushButton_start_stop->setText("Start");
     extern_gamestate = GameState::Pause;
     game->reset_game();
+    game_graphic->redraw();
+    ui->label_blueteam_score->setText(QString::number(extern_wm.blue.score));
+    ui->label_redteam_score->setText(QString::number(extern_wm.red.score));
 }
 
 void MainWindow::handle_simulator_timer()
@@ -83,11 +93,28 @@ void MainWindow::handle_simulator_timer()
     if(extern_gamestate == GameState::Pause) return;
     simulator_timer->stop();
 
+    ui->label_blueteam_score->setText(QString::number(extern_wm.blue.score));
+    ui->label_redteam_score->setText(QString::number(extern_wm.red.score));
+
     ui->label_blueteam_dir->setText(dir_to_text(extern_wm.blue.dir));
     ui->label_redteam_dir->setText(dir_to_text(extern_wm.red.dir));
 
     game->step();
     // game->print_board();
+    game_graphic->redraw();
 
     simulator_timer->start(step_time);
+}
+
+void MainWindow::resizeEvent(QResizeEvent* event)
+{
+    int min = std::min(ui->widget_game->size().width(), ui->widget_game->size().height());
+    game_graphic->setMaximumSize(min, min);
+}
+
+void MainWindow::showEvent(QShowEvent* event)
+{
+    // correcting gameview initial size
+    int min = std::min(ui->widget_game->size().width(), ui->widget_game->size().height());
+    game_graphic->setMaximumSize(min, min);
 }
