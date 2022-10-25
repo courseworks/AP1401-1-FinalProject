@@ -99,6 +99,33 @@ void MainWindow::handle_reset_game_button()
     update_whole_gui();
 }
 
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if(extern_config.blueteam_handy)
+    {
+        if(event->key() == Qt::Key_Up)
+            extern_wm.blue.dir = Direction::Up;
+        else if(event->key() == Qt::Key_Right)
+            extern_wm.blue.dir = Direction::Right;
+        else if(event->key() == Qt::Key_Down)
+            extern_wm.blue.dir = Direction::Down;
+        else if(event->key() == Qt::Key_Left)
+            extern_wm.blue.dir = Direction::Left;
+    }
+
+    if(extern_config.redteam_handy)
+    {
+        if(event->key() == Qt::Key_W)
+            extern_wm.red.dir = Direction::Up;
+        else if(event->key() == Qt::Key_D)
+            extern_wm.red.dir = Direction::Right;
+        else if(event->key() == Qt::Key_S)
+            extern_wm.red.dir = Direction::Down;
+        else if(event->key() == Qt::Key_A)
+            extern_wm.red.dir = Direction::Left;
+    }
+}
+
 void MainWindow::handle_timer_simulator()
 {
     if(extern_gamestate == GameState::Pause) return;

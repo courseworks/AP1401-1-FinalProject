@@ -40,6 +40,8 @@ private slots:
     void resizeEvent(QResizeEvent* event) override;
     void showEvent(QShowEvent* event) override;
 
+    void keyPressEvent(QKeyEvent *event) override;
+
     void handle_start_stop_button();
     void handle_reset_round_button();
     void handle_reset_game_button();
