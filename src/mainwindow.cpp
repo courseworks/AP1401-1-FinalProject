@@ -26,6 +26,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pushButton_start_stop, &QPushButton::clicked, this, &MainWindow::handle_start_stop_button);
     connect(ui->pushButton_resetround, &QPushButton::clicked, this, &MainWindow::handle_reset_round_button);
     connect(ui->pushButton_resetgame, &QPushButton::clicked, this, &MainWindow::handle_reset_game_button);
+
+    timer_simulator = new QTimer{};
+    connect(timer_simulator, &QTimer::timeout, this, &MainWindow::handle_timer_simulator);
+    timer_time = 200;
+    timer_simulator->start(timer_time);
     
 }
 
@@ -36,6 +41,7 @@ MainWindow::~MainWindow()
     delete game;
     delete game_graphic;
     delete layout_game_graphic;
+    delete timer_simulator;
 }
 
 void MainWindow::resizeEvent(QResizeEvent* event)
@@ -91,4 +97,20 @@ void MainWindow::handle_reset_game_button()
     extern_gamestate = GameState::Pause;
     game->reset_game();
     update_whole_gui();
+}
+
+void MainWindow::handle_timer_simulator()
+{
+    if(extern_gamestate == GameState::Pause) return;
+    timer_simulator->stop();
+
+    bool is_finished = game->step();
+    update_whole_gui();
+    if(is_finished)
+    {
+        QThread::msleep(500);
+        game->reset_round();
+        update_whole_gui();
+    }
+    timer_simulator->start(timer_time);
 }

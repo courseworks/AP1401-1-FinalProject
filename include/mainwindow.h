@@ -30,6 +30,9 @@ private:
     GameGraphic* game_graphic;
     QGridLayout* layout_game_graphic;
 
+    QTimer* timer_simulator;
+    int timer_time;
+
 
     void update_whole_gui();
 
@@ -40,6 +43,8 @@ private slots:
     void handle_start_stop_button();
     void handle_reset_round_button();
     void handle_reset_game_button();
+
+    void handle_timer_simulator();
 
 };
 
