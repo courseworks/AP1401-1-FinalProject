@@ -66,7 +66,7 @@ void Game::reset_game()
     extern_wm.red.score = 0;
 }
 
-void Game::step()
+bool Game::step()
 {
     Board& board = extern_wm.board;
     Tron& blue = extern_wm.blue;
@@ -95,7 +95,6 @@ void Game::step()
     {
         blue.score++; red.score++;
         is_finished = true;
-        return;
     }
     if(board[blue.head.x()][blue.head.y()] != 0)
     {
@@ -111,5 +110,7 @@ void Game::step()
     board[blue.head.x()][blue.head.y()] = 1;
     board[red.head.x()][red.head.y()] = 2;  
 
-    if(is_finished) emit round_finished();  
+    // if(is_finished) emit round_finished();  
+    if(is_finished) return true;  
+    else return false;
 }

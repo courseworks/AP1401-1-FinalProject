@@ -51,8 +51,8 @@ void MainWindow::handle_round_finished()
     ui->label_blueteam_score->setText(QString::number(extern_wm.blue.score));
     ui->label_redteam_score->setText(QString::number(extern_wm.red.score));
     game_graphic->redraw();
+    game->print_board();
     game->reset_round();
-    // QThread::sleep(1);
     simulator_timer->start(step_time);
 }
 
@@ -100,10 +100,15 @@ void MainWindow::handle_simulator_timer()
     ui->label_blueteam_dir->setText(dir_to_text(extern_wm.blue.dir));
     ui->label_redteam_dir->setText(dir_to_text(extern_wm.red.dir));
 
-    game->step();
-    // game->print_board();
+    bool is_finished = game->step();
+    game->print_board();
     game_graphic->redraw();
-
+    if(is_finished)
+    {
+        ui->label_blueteam_score->setText(QString::number(extern_wm.blue.score));
+        ui->label_redteam_score->setText(QString::number(extern_wm.red.score));
+        game->reset_round();
+    }
     simulator_timer->start(step_time);
 }
 

@@ -13,7 +13,7 @@ public:
     GameGraphic(QOpenGLWidget* parent = nullptr);
     ~GameGraphic();
 
-    void redraw();
+    void redraw(bool wait = true);
 
 private:
     QPainter* painter;

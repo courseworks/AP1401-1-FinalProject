@@ -16,7 +16,6 @@ GameGraphic::~GameGraphic()
 
 void GameGraphic::paintGL()
 {
-
     painter->begin(this);
     painter->translate(width() / 2, height() / 2); // bring the reference coordinate to the middle
 
@@ -26,28 +25,28 @@ void GameGraphic::paintGL()
     painter->setPen(QPen(Qt::black, 1.5));
     for(float i{}; i <= board.size(); i++)
     {
-        painter->drawLine(CVT(i, 0), CVT(i, cell_num-1) + QPointF(cell_width, 0));
-        painter->drawLine(CVT(0, i), CVT(cell_num-1, i) + QPointF(0, cell_width));
+        painter->drawLine(CVT(i, 0), CVT(i, cell_num));
+        painter->drawLine(CVT(0, i), CVT(cell_num, i));
     }
 
     for(int i{}; i < board.size(); i++)
         for(int j{}; j < board.size(); j++)
         {
             // borders
-            painter->setPen(QPen(Qt::black, 1));
+            painter->setPen(Qt::NoPen);
             painter->setBrush(Qt::black);
             if(board[i][j] == -1)
-                painter->drawRect({CVT(i, j), QSizeF(cell_width, cell_width)});
+                painter->drawRect({CVT(i, j), QSizeF(cell_width, -cell_width)});
             // blue tron
             painter->setPen(QPen(Qt::black, 1));
             painter->setBrush(Qt::blue);
             if(board[i][j] == 1)
-                painter->drawRect({CVT(i, j), QSizeF(cell_width, cell_width)});
+                painter->drawRect({CVT(i, j), QSizeF(cell_width, -cell_width)});
             // red tron
             painter->setPen(QPen(Qt::black, 1));
             painter->setBrush(Qt::red);
-            if(board[i][j] == 2)
-                painter->drawRect({CVT(i, j), QSizeF(cell_width, cell_width)});
+            if(board[i][j] == 2) 
+                painter->drawRect({CVT(i, j), QSizeF(cell_width, -cell_width)});
         }
 
     painter->end();
@@ -59,14 +58,15 @@ void GameGraphic::initializeGL()
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void GameGraphic::redraw()
+void GameGraphic::redraw(bool wait)
 {
-    update();
+    // update(); // scedule the widget to be repainted
+    repaint(); // repaint the widget immediately after calling
 }
 
 void GameGraphic::resizeGL(int w, int h)
 {
-    update();
+    redraw();
 }
 
 void GameGraphic::wheelEvent ( QWheelEvent * event )

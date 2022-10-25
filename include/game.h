@@ -20,7 +20,7 @@ public:
     void reset_round();
     void reset_game();
 
-    void step();
+    bool step();
 
 signals:
     void round_finished();
