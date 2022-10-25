@@ -21,6 +21,12 @@ MainWindow::MainWindow(QWidget *parent)
     layout_game_graphic->setSpacing(0);
     layout_game_graphic->setContentsMargins(0, 0, 0, 0);
     layout_game_graphic->addWidget(game_graphic);
+
+    // pushbuttons
+    connect(ui->pushButton_start_stop, &QPushButton::clicked, this, &MainWindow::handle_start_stop_button);
+    connect(ui->pushButton_resetround, &QPushButton::clicked, this, &MainWindow::handle_reset_round_button);
+    connect(ui->pushButton_resetgame, &QPushButton::clicked, this, &MainWindow::handle_reset_game_button);
+    
 }
 
 MainWindow::~MainWindow()
@@ -43,4 +49,46 @@ void MainWindow::showEvent(QShowEvent* event)
     // correcting gameview initial size
     int min = std::min(ui->widget_game->size().width(), ui->widget_game->size().height());
     game_graphic->setMaximumSize(min, min);
+}
+
+void MainWindow::update_whole_gui()
+{
+    game_graphic->repaint();
+
+    ui->label_blueteam_score->setText(QString::number(extern_wm.blue.score));
+    ui->label_redteam_score->setText(QString::number(extern_wm.red.score));
+
+    ui->label_blueteam_dir->setText(dir_to_text(extern_wm.blue.dir));
+    ui->label_redteam_dir->setText(dir_to_text(extern_wm.red.dir));
+}
+
+void MainWindow::handle_start_stop_button()
+{
+    this->setFocus();
+    if(ui->pushButton_start_stop->text().toUpper() == "START")
+    {
+        ui->pushButton_start_stop->setText("Pause");
+        extern_gamestate = GameState::Running;
+    }
+    else
+    {
+        ui->pushButton_start_stop->setText("Start");
+        extern_gamestate = GameState::Pause;
+    }
+}
+
+void MainWindow::handle_reset_round_button()
+{
+    ui->pushButton_start_stop->setText("Start");
+    extern_gamestate = GameState::Pause;
+    game->reset_round();
+    update_whole_gui();
+}
+
+void MainWindow::handle_reset_game_button()
+{
+    ui->pushButton_start_stop->setText("Start");
+    extern_gamestate = GameState::Pause;
+    game->reset_game();
+    update_whole_gui();
 }

@@ -30,9 +30,16 @@ private:
     GameGraphic* game_graphic;
     QGridLayout* layout_game_graphic;
 
+
+    void update_whole_gui();
+
 private slots:
     void resizeEvent(QResizeEvent* event) override;
     void showEvent(QShowEvent* event) override;
+
+    void handle_start_stop_button();
+    void handle_reset_round_button();
+    void handle_reset_game_button();
 
 };
 
