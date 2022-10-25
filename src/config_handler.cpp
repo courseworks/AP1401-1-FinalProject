@@ -137,7 +137,7 @@ void ConfigHandler::handle_redteam_port()
 }
 void ConfigHandler::handle_redteam_handy()
 {
-    extern_config.blueteam_handy = ui->checkBox_redteam_handy->isChecked();
+    extern_config.redteam_handy = ui->checkBox_redteam_handy->isChecked();
 }
 
 bool ConfigHandler::valid_part(char* s)
