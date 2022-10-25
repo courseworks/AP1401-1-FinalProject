@@ -14,17 +14,6 @@ public:
     Game(QObject* parent = nullptr);
     ~Game();
 
-    void create_board();
-    void print_board();
-
-    void reset_round();
-    void reset_game();
-
-    bool step();
-
-signals:
-    void round_finished();
-
 };
 
 #endif // GAME_H
