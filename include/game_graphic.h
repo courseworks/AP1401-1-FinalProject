@@ -13,25 +13,23 @@ public:
     GameGraphic(QOpenGLWidget* parent = nullptr);
     ~GameGraphic();
 
-    void redraw(bool wait = true);
-
 private:
+    // shortcuts to extern variables
+    Board& board;
+    int& cell_num;
+    float& cell_width;
+    Tron& blue;
+    Tron& red;
+
     QPainter* painter;
     double scale_ratio;
 
     QPointF CVT(int i, int j) {return QPointF{j*cell_width - (cell_width*cell_num)/2, -i*cell_width + (cell_width*cell_num)/2};}
 
-    Board& board;
-    int& cell_num;
-    float& cell_width;
-
-protected:
+private slots:
     void paintGL() override;
     void initializeGL() override;
-
-private:
-    void resizeGL(int w, int h) override;
-    void wheelEvent ( QWheelEvent * event ) override;
+    void wheelEvent(QWheelEvent * event) override;
 
 };
 

@@ -26,27 +26,27 @@ private:
     Ui::MainWindow *ui;
     ConfigHandler* config_handler;
     Game* game;
-    QTimer* simulator_timer;
-    int step_time;
 
     GameGraphic* game_graphic;
     QGridLayout* layout_game_graphic;
 
+    QTimer* timer_simulator;
+    int timer_time;
 
 
-public slots:
-    void handle_round_finished();
-    // pushbuttons
-    void handle_start_stop();
-    void handle_reset_round();
-    void handle_reset_game();
-    // timer
-    void handle_simulator_timer();
+    void update_whole_gui();
 
 private slots:
     void resizeEvent(QResizeEvent* event) override;
     void showEvent(QShowEvent* event) override;
+
     void keyPressEvent(QKeyEvent *event) override;
+
+    void handle_start_stop_button();
+    void handle_reset_round_button();
+    void handle_reset_game_button();
+
+    void handle_timer_simulator();
 
 };
 

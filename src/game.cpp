@@ -1,9 +1,9 @@
 #include "game.h"
 
-Game::Game(QObject* parent) : QObject{parent}
+Game::Game(QObject* parent) : QObject{parent},
+    board{extern_wm.board}, cell_num{extern_config.field_cellnum}, blue{extern_wm.blue}, red{extern_wm.red}
 {
-    extern_wm.blue.score = 0;
-    extern_wm.red.score = 0;
+    reset_game();
 }
 
 Game::~Game()
@@ -11,13 +11,8 @@ Game::~Game()
 
 }
 
-void Game::create_board()
+void Game::reset_board()
 {
-    Board& board = extern_wm.board;
-    int& cell_num = extern_config.field_cellnum;
-    Tron& blue = extern_wm.blue;
-    Tron& red = extern_wm.red;
-
     board.clear();
     for(int i{}; i < cell_num; i++)
         board.push_back(QVector<int>(cell_num, 0));
@@ -40,38 +35,22 @@ void Game::create_board()
     red.head = red.tail;
     board[red.head.x()][red.head.y()] = 2;
     red.dir = Direction::Left; // or static_cast<Direction>(3)
-
-}
-
-void Game::print_board()
-{
-    Board& board = extern_wm.board;
-    for(const auto& row : board)
-    {
-        for(const auto& cell : row)
-            std::cout << cell << "  ";
-        std::cout << std::endl;
-    }
 }
 
 void Game::reset_round()
 {
-    create_board();
+    reset_board();
 }
 
 void Game::reset_game()
 {
-    create_board();
-    extern_wm.blue.score = 0;
-    extern_wm.red.score = 0;
+    reset_board();
+    blue.score = 0;
+    red.score = 0;
 }
 
 bool Game::step()
 {
-    Board& board = extern_wm.board;
-    Tron& blue = extern_wm.blue;
-    Tron& red = extern_wm.red;
-
     if(blue.dir == Direction::Up)
         blue.head = blue.head + QPoint{-1, 0};
     else if(blue.dir == Direction::Right)
@@ -110,7 +89,18 @@ bool Game::step()
     board[blue.head.x()][blue.head.y()] = 1;
     board[red.head.x()][red.head.y()] = 2;  
 
-    // if(is_finished) emit round_finished();  
-    if(is_finished) return true;  
-    else return false;
+    return is_finished;
 }
+
+void Game::print_board()
+{
+    for(const auto& row : extern_wm.board)
+    {
+        for(const auto& cell : row)
+            std::cout << cell << "  ";
+        std::cout << std::endl;
+    }
+}
+
+
+

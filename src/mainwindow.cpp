@@ -14,8 +14,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     config_handler = new ConfigHandler{ui};
     game = new Game{};
-    game->reset_game();
-    connect(game, &Game::round_finished, this, &MainWindow::handle_round_finished);
 
     game_graphic = new GameGraphic{};
     layout_game_graphic = new QGridLayout{ui->widget_game};
@@ -25,15 +23,15 @@ MainWindow::MainWindow(QWidget *parent)
     layout_game_graphic->addWidget(game_graphic);
 
     // pushbuttons
-    connect(ui->pushButton_start_stop, &QPushButton::clicked, this, &MainWindow::handle_start_stop);
-    connect(ui->pushButton_resetround, &QPushButton::clicked, this, &MainWindow::handle_reset_round);
-    connect(ui->pushButton_resetgame, &QPushButton::clicked, this, &MainWindow::handle_reset_game);
+    connect(ui->pushButton_start_stop, &QPushButton::clicked, this, &MainWindow::handle_start_stop_button);
+    connect(ui->pushButton_resetround, &QPushButton::clicked, this, &MainWindow::handle_reset_round_button);
+    connect(ui->pushButton_resetgame, &QPushButton::clicked, this, &MainWindow::handle_reset_game_button);
 
-    // timer
-    simulator_timer = new QTimer{};
-    connect(simulator_timer, &QTimer::timeout, this, &MainWindow::handle_simulator_timer);
-    step_time = 100;
-    simulator_timer->start(step_time);
+    timer_simulator = new QTimer{};
+    connect(timer_simulator, &QTimer::timeout, this, &MainWindow::handle_timer_simulator);
+    timer_time = 200;
+    timer_simulator->start(timer_time);
+    
 }
 
 MainWindow::~MainWindow()
@@ -41,75 +39,9 @@ MainWindow::~MainWindow()
     delete ui;
     delete config_handler;
     delete game;
-    delete simulator_timer;
     delete game_graphic;
-}
-
-void MainWindow::handle_round_finished()
-{
-    simulator_timer->stop();
-    ui->label_blueteam_score->setText(QString::number(extern_wm.blue.score));
-    ui->label_redteam_score->setText(QString::number(extern_wm.red.score));
-    game_graphic->redraw();
-    game->print_board();
-    game->reset_round();
-    simulator_timer->start(step_time);
-}
-
-void MainWindow::handle_start_stop()
-{
-    this->setFocus();
-    if(ui->pushButton_start_stop->text().toUpper() == "START")
-    {
-        ui->pushButton_start_stop->setText("Pause");
-        extern_gamestate = GameState::Running;
-    }
-    else
-    {
-        ui->pushButton_start_stop->setText("Start");
-        extern_gamestate = GameState::Pause;
-    }
-}
-
-void MainWindow::handle_reset_round()
-{
-    ui->pushButton_start_stop->setText("Start");
-    extern_gamestate = GameState::Pause;
-    game->reset_round();
-    game_graphic->redraw();
-}
-
-void MainWindow::handle_reset_game()
-{
-    ui->pushButton_start_stop->setText("Start");
-    extern_gamestate = GameState::Pause;
-    game->reset_game();
-    game_graphic->redraw();
-    ui->label_blueteam_score->setText(QString::number(extern_wm.blue.score));
-    ui->label_redteam_score->setText(QString::number(extern_wm.red.score));
-}
-
-void MainWindow::handle_simulator_timer()
-{
-    if(extern_gamestate == GameState::Pause) return;
-    simulator_timer->stop();
-
-    ui->label_blueteam_score->setText(QString::number(extern_wm.blue.score));
-    ui->label_redteam_score->setText(QString::number(extern_wm.red.score));
-
-    ui->label_blueteam_dir->setText(dir_to_text(extern_wm.blue.dir));
-    ui->label_redteam_dir->setText(dir_to_text(extern_wm.red.dir));
-
-    bool is_finished = game->step();
-    game->print_board();
-    game_graphic->redraw();
-    if(is_finished)
-    {
-        ui->label_blueteam_score->setText(QString::number(extern_wm.blue.score));
-        ui->label_redteam_score->setText(QString::number(extern_wm.red.score));
-        game->reset_round();
-    }
-    simulator_timer->start(step_time);
+    delete layout_game_graphic;
+    delete timer_simulator;
 }
 
 void MainWindow::resizeEvent(QResizeEvent* event)
@@ -125,23 +57,87 @@ void MainWindow::showEvent(QShowEvent* event)
     game_graphic->setMaximumSize(min, min);
 }
 
+void MainWindow::update_whole_gui()
+{
+    game_graphic->repaint();
+
+    ui->label_blueteam_score->setText(QString::number(extern_wm.blue.score));
+    ui->label_redteam_score->setText(QString::number(extern_wm.red.score));
+
+    ui->label_blueteam_dir->setText(dir_to_text(extern_wm.blue.dir));
+    ui->label_redteam_dir->setText(dir_to_text(extern_wm.red.dir));
+}
+
+void MainWindow::handle_start_stop_button()
+{
+    this->setFocus();
+    if(ui->pushButton_start_stop->text().toUpper() == "START")
+    {
+        ui->pushButton_start_stop->setText("Pause");
+        extern_gamestate = GameState::Running;
+    }
+    else
+    {
+        ui->pushButton_start_stop->setText("Start");
+        extern_gamestate = GameState::Pause;
+    }
+}
+
+void MainWindow::handle_reset_round_button()
+{
+    ui->pushButton_start_stop->setText("Start");
+    extern_gamestate = GameState::Pause;
+    game->reset_round();
+    update_whole_gui();
+}
+
+void MainWindow::handle_reset_game_button()
+{
+    ui->pushButton_start_stop->setText("Start");
+    extern_gamestate = GameState::Pause;
+    game->reset_game();
+    update_whole_gui();
+}
+
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    if(event->key() == Qt::Key_Up)
-        extern_wm.blue.dir = Direction::Up;
-    else if(event->key() == Qt::Key_Right)
-        extern_wm.blue.dir = Direction::Right;
-    else if(event->key() == Qt::Key_Down)
-        extern_wm.blue.dir = Direction::Down;
-    else if(event->key() == Qt::Key_Left)
-        extern_wm.blue.dir = Direction::Left;
+    if(extern_config.blueteam_handy)
+    {
+        if(event->key() == Qt::Key_Up)
+            extern_wm.blue.dir = Direction::Up;
+        else if(event->key() == Qt::Key_Right)
+            extern_wm.blue.dir = Direction::Right;
+        else if(event->key() == Qt::Key_Down)
+            extern_wm.blue.dir = Direction::Down;
+        else if(event->key() == Qt::Key_Left)
+            extern_wm.blue.dir = Direction::Left;
+    }
 
-    if(event->key() == Qt::Key_W)
-        extern_wm.red.dir = Direction::Up;
-    else if(event->key() == Qt::Key_D)
-        extern_wm.red.dir = Direction::Right;
-    else if(event->key() == Qt::Key_S)
-        extern_wm.red.dir = Direction::Down;
-    else if(event->key() == Qt::Key_A)
-        extern_wm.red.dir = Direction::Left;
+    if(extern_config.redteam_handy)
+    {
+        if(event->key() == Qt::Key_W)
+            extern_wm.red.dir = Direction::Up;
+        else if(event->key() == Qt::Key_D)
+            extern_wm.red.dir = Direction::Right;
+        else if(event->key() == Qt::Key_S)
+            extern_wm.red.dir = Direction::Down;
+        else if(event->key() == Qt::Key_A)
+            extern_wm.red.dir = Direction::Left;
+    }
+}
+
+void MainWindow::handle_timer_simulator()
+{
+    if(extern_gamestate == GameState::Pause) return;
+    timer_simulator->stop();
+
+    bool is_finished = game->step();
+    update_whole_gui();
+    if(is_finished)
+    {
+        QThread::msleep(500);
+        game->reset_round();
+        update_whole_gui();
+    }
+    timer_simulator->start(timer_time);
 }

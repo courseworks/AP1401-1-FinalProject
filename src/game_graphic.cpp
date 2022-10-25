@@ -2,11 +2,10 @@
 
 
 
-GameGraphic::GameGraphic(QOpenGLWidget* parent) : 
-    QOpenGLWidget{parent}, board{extern_wm.board}, cell_num{extern_config.field_cellnum}, cell_width{extern_config.field_cellwidth}
+GameGraphic::GameGraphic(QOpenGLWidget* parent) : QOpenGLWidget{parent},
+    board{extern_wm.board}, cell_num{extern_config.field_cellnum}, cell_width{extern_config.field_cellwidth}, blue{extern_wm.blue}, red{extern_wm.red}, scale_ratio{1}
 {
     painter = new QPainter{};
-    scale_ratio = 1;
 }
 
 GameGraphic::~GameGraphic()
@@ -18,7 +17,6 @@ void GameGraphic::paintGL()
 {
     painter->begin(this);
     painter->translate(width() / 2, height() / 2); // bring the reference coordinate to the middle
-
     painter->scale(scale_ratio, -scale_ratio);
 
     // empthy board
@@ -58,18 +56,7 @@ void GameGraphic::initializeGL()
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void GameGraphic::redraw(bool wait)
-{
-    // update(); // scedule the widget to be repainted
-    repaint(); // repaint the widget immediately after calling
-}
-
-void GameGraphic::resizeGL(int w, int h)
-{
-    redraw();
-}
-
-void GameGraphic::wheelEvent ( QWheelEvent * event )
+void GameGraphic::wheelEvent(QWheelEvent * event)
 {
     int delta = event->angleDelta().x() + event->angleDelta().y();
     if (delta < 0)
@@ -79,5 +66,5 @@ void GameGraphic::wheelEvent ( QWheelEvent * event )
 
     if (scale_ratio <= 0)
         scale_ratio = 0.01;
-    redraw();
+    update();
 }

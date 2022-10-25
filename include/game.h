@@ -14,16 +14,20 @@ public:
     Game(QObject* parent = nullptr);
     ~Game();
 
-    void create_board();
-    void print_board();
-
+    void reset_board();
     void reset_round();
     void reset_game();
 
     bool step();
 
-signals:
-    void round_finished();
+    static void print_board();
+
+private:
+    // shortcuts to extern variables
+    Board& board;
+    int& cell_num;
+    Tron& blue;
+    Tron& red;
 
 };
 
