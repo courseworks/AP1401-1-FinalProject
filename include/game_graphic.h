@@ -17,11 +17,14 @@ private:
     // shortcuts to extern variables
     Board& board;
     int& cell_num;
+    float& cell_width;
     Tron& blue;
     Tron& red;
 
     QPainter* painter;
     double scale_ratio;
+
+    QPointF CVT(int i, int j) {return QPointF{j*cell_width - (cell_width*cell_num)/2, -i*cell_width + (cell_width*cell_num)/2};}
 
 private slots:
     void paintGL() override;
