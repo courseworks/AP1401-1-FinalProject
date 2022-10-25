@@ -44,7 +44,7 @@ void Game::reset_round()
 
 void Game::reset_game()
 {
-    reset_game();
+    reset_board();
     blue.score = 0;
     red.score = 0;
 }
