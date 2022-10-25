@@ -13,11 +13,12 @@ MainWindow::MainWindow(QWidget *parent)
     this->setFocus(); // no defualt focus on widgets
 
     config_handler = new ConfigHandler{ui};
-    
+    game = new Game{};
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
     delete config_handler;
+    delete game;
 }

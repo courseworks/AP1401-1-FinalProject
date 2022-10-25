@@ -6,6 +6,7 @@
 #include <QThread>
 #include "extern.h"
 #include "config_handler.h"
+#include "game.h"
 
 // forward declaration
 QT_BEGIN_NAMESPACE
@@ -23,7 +24,7 @@ public:
 private:
     Ui::MainWindow *ui;
     ConfigHandler* config_handler;
-
+    Game* game;
 };
 
 
