@@ -59,3 +59,69 @@ void BroadCast::run()
     auto ret = udp->writeDatagram(dgram.data(), dgram.size(), QHostAddress{ip}, 1234);
     // qDebug() << ret << dgram.size();
 }
+
+
+
+
+
+ReceiveCommand::ReceiveCommand(QObject* parent) : QObject{parent},
+    ip{extern_config.command_ip}, blue_port{extern_config.blueteam_port}, red_port{extern_config.redteam_port}, blue{extern_wm.blue}, red{extern_wm.red}
+{
+    blue_udp = new QUdpSocket{};
+    connect(blue_udp, &QUdpSocket::readyRead, this, &ReceiveCommand::handle_blue_command);
+
+    red_udp = new QUdpSocket{};
+    connect(red_udp, &QUdpSocket::readyRead, this, &ReceiveCommand::handle_red_command);
+
+    connect_to_hosts();
+}
+
+ReceiveCommand::~ReceiveCommand()
+{
+    delete blue_udp;
+    delete red_udp;
+}
+
+void ReceiveCommand::connect_to_hosts()
+{
+    blue_udp->disconnectFromHost();
+    blue_udp->bind(QHostAddress(ip), blue_port);
+
+    red_udp->disconnectFromHost();
+    red_udp->bind(QHostAddress(ip), red_port);
+}
+
+void ReceiveCommand::handle_blue_command()
+{
+    QNetworkDatagram datagram = blue_udp->receiveDatagram();
+    QString recv = QString(datagram.data()).trimmed().toUpper();
+    if(!extern_config.blueteam_handy)
+    {
+        if(recv == "UP")
+            blue.dir = Direction::Up;
+        else if(recv == "RIGHT")
+            blue.dir = Direction::Right;
+        else if(recv == "DOWN")
+            blue.dir = Direction::Down;
+        else // LEFT
+            blue.dir = Direction::Left;        
+    }
+}
+
+void ReceiveCommand::handle_red_command()
+{
+    QNetworkDatagram datagram = red_udp->receiveDatagram();
+    QString recv = QString(datagram.data()).trimmed().toUpper();
+    if(!extern_config.redteam_handy)
+    {
+        if(recv == "UP")
+            red.dir = Direction::Up;
+        else if(recv == "RIGHT")
+            red.dir = Direction::Right;
+        else if(recv == "DOWN")
+            red.dir = Direction::Down;
+        else // LEFT
+            red.dir = Direction::Left;        
+    }
+
+}

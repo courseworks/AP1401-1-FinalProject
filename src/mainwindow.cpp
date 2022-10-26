@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->setFocus(); // no defualt focus on widgets
+    this->setFocus(); // no defualt focus on any widget
 
     config_handler = new ConfigHandler{ui};
     game = new Game{};
@@ -24,6 +24,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     broadcast = new BroadCast{};
     broadcast->udp->moveToThread(broadcast);
+
+    receive_command = new ReceiveCommand{};
+    connect(ui->lineEdit_command_ip, &QLineEdit::editingFinished, receive_command, &ReceiveCommand::connect_to_hosts);
+    connect(ui->lineEdit_blueteam_port, &QLineEdit::editingFinished, receive_command, &ReceiveCommand::connect_to_hosts);
+    connect(ui->lineEdit_redteam_port, &QLineEdit::editingFinished, receive_command, &ReceiveCommand::connect_to_hosts);
 
     // pushbuttons
     connect(ui->pushButton_start_stop, &QPushButton::clicked, this, &MainWindow::handle_start_stop_button);
@@ -46,6 +51,7 @@ MainWindow::~MainWindow()
     delete layout_game_graphic;
     delete timer_simulator;
     delete broadcast;
+    delete receive_command;
 }
 
 void MainWindow::resizeEvent(QResizeEvent* event)

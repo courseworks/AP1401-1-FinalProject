@@ -88,7 +88,7 @@ void ConfigHandler::handle_broadcast_port()
 
 void ConfigHandler::handle_command_ip()
 {
-    QString ip = ui->lineEdit_broadcast_ip->text();
+    QString ip = ui->lineEdit_command_ip->text();
     bool ok = is_valid_ip(ip);
     if(!ok) qWarning() << "[command_ip] enter a correct ip address!";
     else extern_config.command_ip = ip;

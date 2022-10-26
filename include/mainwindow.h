@@ -35,6 +35,7 @@ private:
     int timer_time;
 
     BroadCast* broadcast;
+    ReceiveCommand* receive_command;
 
     void update_whole_gui();
 
