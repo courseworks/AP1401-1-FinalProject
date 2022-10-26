@@ -15,23 +15,18 @@ BroadCast::~BroadCast()
 void BroadCast::run()
 {
     QJsonObject main_json;
+    // game state
     main_json.insert("game_state", QJsonValue::fromVariant(state_to_text(extern_gamestate)));
 
+    // team names
     main_json.insert("blue", QJsonValue::fromVariant(extern_config.blueteam_name));
     main_json.insert("red", QJsonValue::fromVariant(extern_config.redteam_name));
 
-    // QJsonArray blue_tail;
-    // blue_tail.push_back(blue.tail.x());
-    // blue_tail.push_back(blue.tail.y());
-    // main_json.insert("1_tail", blue_tail);
-    // QJsonArray red_tail;
-    // red_tail.push_back(red.tail.x());
-    // red_tail.push_back(red.tail.y());
-    // main_json.insert("2_tail", red_tail);
-
+    // team scores
     main_json.insert("blue_score", QJsonValue::fromVariant(blue.score));
     main_json.insert("red_score", QJsonValue::fromVariant(red.score));
 
+    // team heads - blue
     QJsonArray blue_heads;
     auto tmp = blue.head;
     while(!tmp.empty())
@@ -44,6 +39,7 @@ void BroadCast::run()
     }
     main_json.insert("blue_heads", blue_heads);
 
+    // team heads - red
     QJsonArray red_heads;
     tmp = red.head;
     while(!tmp.empty())
