@@ -1,8 +1,27 @@
 #ifndef EXTERN_H
 #define EXTERN_H
 
+#include <queue>
+#include <stack>
 #include <QString>
 #include <QPoint>
+
+template <typename T, int MaxLen, typename Container=std::deque<T>>
+class FixedStack : public std::stack<T, Container> {
+public:
+    void push(const T& value) {
+        if (this->size() == MaxLen) {
+           this->c.pop_front();
+        }
+        std::stack<T, Container>::push(value);
+    }
+
+    void clear()
+    {
+        FixedStack<T, MaxLen, Container> empty;
+        std::swap(*this, empty);
+    }
+};
 
 using Board = QVector<QVector<int>>;
 
