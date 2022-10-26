@@ -50,7 +50,7 @@ struct Config
 enum class Direction {Up = 0, Right = 1, Down = 2, Left = 3};
 struct Tron
 {
-    QPoint head;
+    FixedStack<QPoint, 3> head;
     QPoint tail;
     Direction dir;
     int score;
