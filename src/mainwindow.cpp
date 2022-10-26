@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->setFocus(); // no defualt focus on widgets
+    this->setFocus(); // no defualt focus on any widget
 
     config_handler = new ConfigHandler{ui};
     game = new Game{};
@@ -22,6 +22,14 @@ MainWindow::MainWindow(QWidget *parent)
     layout_game_graphic->setContentsMargins(0, 0, 0, 0);
     layout_game_graphic->addWidget(game_graphic);
 
+    broadcast = new BroadCast{};
+    broadcast->udp->moveToThread(broadcast);
+
+    receive_command = new ReceiveCommand{};
+    connect(ui->lineEdit_command_ip, &QLineEdit::editingFinished, receive_command, &ReceiveCommand::connect_to_hosts);
+    connect(ui->lineEdit_blueteam_port, &QLineEdit::editingFinished, receive_command, &ReceiveCommand::connect_to_hosts);
+    connect(ui->lineEdit_redteam_port, &QLineEdit::editingFinished, receive_command, &ReceiveCommand::connect_to_hosts);
+
     // pushbuttons
     connect(ui->pushButton_start_stop, &QPushButton::clicked, this, &MainWindow::handle_start_stop_button);
     connect(ui->pushButton_resetround, &QPushButton::clicked, this, &MainWindow::handle_reset_round_button);
@@ -29,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     timer_simulator = new QTimer{};
     connect(timer_simulator, &QTimer::timeout, this, &MainWindow::handle_timer_simulator);
-    timer_time = 200;
+    timer_time = 100;
     timer_simulator->start(timer_time);
     
 }
@@ -42,6 +50,8 @@ MainWindow::~MainWindow()
     delete game_graphic;
     delete layout_game_graphic;
     delete timer_simulator;
+    delete broadcast;
+    delete receive_command;
 }
 
 void MainWindow::resizeEvent(QResizeEvent* event)
@@ -66,6 +76,9 @@ void MainWindow::update_whole_gui()
 
     ui->label_blueteam_dir->setText(dir_to_text(extern_wm.blue.dir));
     ui->label_redteam_dir->setText(dir_to_text(extern_wm.red.dir));
+
+    ui->label_blueteam_freq->setText(QString::number(receive_command->blue_command_freq) + " Hz");
+    ui->label_redteam_freq->setText(QString::number(receive_command->red_command_freq) + " Hz");
 }
 
 void MainWindow::handle_start_stop_button()
@@ -128,6 +141,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::handle_timer_simulator()
 {
+    broadcast->start();
     if(extern_gamestate == GameState::Pause) return;
     timer_simulator->stop();
 

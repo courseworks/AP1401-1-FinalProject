@@ -1,8 +1,27 @@
 #ifndef EXTERN_H
 #define EXTERN_H
 
+#include <queue>
+#include <stack>
 #include <QString>
 #include <QPoint>
+
+template <typename T, int MaxLen, typename Container=std::deque<T>>
+class FixedStack : public std::stack<T, Container> {
+public:
+    void push(const T& value) {
+        if (this->size() == MaxLen) {
+           this->c.pop_front();
+        }
+        std::stack<T, Container>::push(value);
+    }
+
+    void clear()
+    {
+        FixedStack<T, MaxLen, Container> empty;
+        std::swap(*this, empty);
+    }
+};
 
 using Board = QVector<QVector<int>>;
 
@@ -31,7 +50,7 @@ struct Config
 enum class Direction {Up = 0, Right = 1, Down = 2, Left = 3};
 struct Tron
 {
-    QPoint head;
+    FixedStack<QPoint, 3> head;
     QPoint tail;
     Direction dir;
     int score;
@@ -58,6 +77,18 @@ struct WorldModel
 
 // game state
 enum class GameState {Running = 0, Pause = 1, WitingForClients = 2};
+
+inline QString state_to_text(GameState state)
+{
+    if(state == GameState::Running)
+        return "Running";
+    if(state == GameState::Pause)
+        return "Pause";
+    if(state == GameState::WitingForClients)
+        return "WitingForClients";
+    // Unknown
+        return "Unknown";
+}
 
 extern Config extern_config;
 extern WorldModel extern_wm;
