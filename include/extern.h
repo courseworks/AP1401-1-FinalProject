@@ -59,6 +59,18 @@ struct WorldModel
 // game state
 enum class GameState {Running = 0, Pause = 1, WitingForClients = 2};
 
+inline QString state_to_text(GameState state)
+{
+    if(state == GameState::Running)
+        return "Running";
+    if(state == GameState::Pause)
+        return "Pause";
+    if(state == GameState::WitingForClients)
+        return "WitingForClients";
+    // Unknown
+        return "Unknown";
+}
+
 extern Config extern_config;
 extern WorldModel extern_wm;
 extern GameState extern_gamestate;

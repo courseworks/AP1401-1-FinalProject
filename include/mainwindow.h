@@ -8,6 +8,7 @@
 #include "config_handler.h"
 #include "game.h"
 #include "game_graphic.h"
+#include "network.h"
 
 // forward declaration
 QT_BEGIN_NAMESPACE
@@ -33,6 +34,7 @@ private:
     QTimer* timer_simulator;
     int timer_time;
 
+    BroadCast* broadcast;
 
     void update_whole_gui();
 

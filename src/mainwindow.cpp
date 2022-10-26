@@ -22,6 +22,9 @@ MainWindow::MainWindow(QWidget *parent)
     layout_game_graphic->setContentsMargins(0, 0, 0, 0);
     layout_game_graphic->addWidget(game_graphic);
 
+    broadcast = new BroadCast{};
+    broadcast->udp->moveToThread(broadcast);
+
     // pushbuttons
     connect(ui->pushButton_start_stop, &QPushButton::clicked, this, &MainWindow::handle_start_stop_button);
     connect(ui->pushButton_resetround, &QPushButton::clicked, this, &MainWindow::handle_reset_round_button);
@@ -42,6 +45,7 @@ MainWindow::~MainWindow()
     delete game_graphic;
     delete layout_game_graphic;
     delete timer_simulator;
+    delete broadcast;
 }
 
 void MainWindow::resizeEvent(QResizeEvent* event)
@@ -128,6 +132,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::handle_timer_simulator()
 {
+    broadcast->start();
     if(extern_gamestate == GameState::Pause) return;
     timer_simulator->stop();
 
