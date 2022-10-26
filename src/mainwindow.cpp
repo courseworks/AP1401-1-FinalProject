@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     timer_simulator = new QTimer{};
     connect(timer_simulator, &QTimer::timeout, this, &MainWindow::handle_timer_simulator);
-    timer_time = 200;
+    timer_time = 100;
     timer_simulator->start(timer_time);
     
 }

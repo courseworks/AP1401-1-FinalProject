@@ -17,20 +17,20 @@ void BroadCast::run()
     QJsonObject main_json;
     main_json.insert("game_state", QJsonValue::fromVariant(state_to_text(extern_gamestate)));
 
-    main_json.insert("1", QJsonValue::fromVariant(extern_config.blueteam_name));
-    main_json.insert("2", QJsonValue::fromVariant(extern_config.redteam_name));
+    main_json.insert("blue", QJsonValue::fromVariant(extern_config.blueteam_name));
+    main_json.insert("red", QJsonValue::fromVariant(extern_config.redteam_name));
 
-    QJsonArray blue_tail;
-    blue_tail.push_back(blue.tail.x());
-    blue_tail.push_back(blue.tail.y());
-    main_json.insert("1_tail", blue_tail);
-    QJsonArray red_tail;
-    red_tail.push_back(red.tail.x());
-    red_tail.push_back(red.tail.y());
-    main_json.insert("2_tail", red_tail);
+    // QJsonArray blue_tail;
+    // blue_tail.push_back(blue.tail.x());
+    // blue_tail.push_back(blue.tail.y());
+    // main_json.insert("1_tail", blue_tail);
+    // QJsonArray red_tail;
+    // red_tail.push_back(red.tail.x());
+    // red_tail.push_back(red.tail.y());
+    // main_json.insert("2_tail", red_tail);
 
-    main_json.insert("1_score", QJsonValue::fromVariant(blue.score));
-    main_json.insert("2_score", QJsonValue::fromVariant(red.score));
+    main_json.insert("blue_score", QJsonValue::fromVariant(blue.score));
+    main_json.insert("red_score", QJsonValue::fromVariant(red.score));
 
     QJsonArray blue_heads;
     auto tmp = blue.head;
@@ -42,7 +42,7 @@ void BroadCast::run()
         blue_heads.push_back(head);
         tmp.pop();
     }
-    main_json.insert("1_heads", blue_heads);
+    main_json.insert("blue_heads", blue_heads);
 
     QJsonArray red_heads;
     tmp = red.head;
@@ -54,7 +54,7 @@ void BroadCast::run()
         red_heads.push_back(head);
         tmp.pop();
     }
-    main_json.insert("2_heads", red_heads);
+    main_json.insert("red_heads", red_heads);
 
     QJsonDocument doc(main_json);
     QByteArray dgram = doc.toJson(QJsonDocument::Compact);
