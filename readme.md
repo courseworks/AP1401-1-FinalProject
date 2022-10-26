@@ -14,7 +14,7 @@ The game is based on a movie called Tron, in this game each team controls a snak
 </br>
 <p align="center">
 <img src="resources/Tron.png" alt="Tron"
-title="Tron" width="700" align="middle" />
+title="Tron" width="1000" align="middle" />
 </p>
 </br>
 
