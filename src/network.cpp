@@ -67,11 +67,22 @@ void BroadCast::run()
 ReceiveCommand::ReceiveCommand(QObject* parent) : QObject{parent},
     ip{extern_config.command_ip}, blue_port{extern_config.blueteam_port}, red_port{extern_config.redteam_port}, blue{extern_wm.blue}, red{extern_wm.red}
 {
+
+    blue_receive_counter = 0;
+    red_receive_counter = 0;
+    blue_command_freq = 0;
+    red_command_freq = 0;
+
+    timer = new QTimer{};
+    connect(timer, &QTimer::timeout, this, &ReceiveCommand::handle_timer);
+    timer->start(1000);
+
     blue_udp = new QUdpSocket{};
     connect(blue_udp, &QUdpSocket::readyRead, this, &ReceiveCommand::handle_blue_command);
 
     red_udp = new QUdpSocket{};
     connect(red_udp, &QUdpSocket::readyRead, this, &ReceiveCommand::handle_red_command);
+
 
     connect_to_hosts();
 }
@@ -93,6 +104,7 @@ void ReceiveCommand::connect_to_hosts()
 
 void ReceiveCommand::handle_blue_command()
 {
+    blue_receive_counter++;
     QNetworkDatagram datagram = blue_udp->receiveDatagram();
     QString recv = QString(datagram.data()).trimmed().toUpper();
     if(!extern_config.blueteam_handy)
@@ -110,6 +122,7 @@ void ReceiveCommand::handle_blue_command()
 
 void ReceiveCommand::handle_red_command()
 {
+    red_receive_counter++;
     QNetworkDatagram datagram = red_udp->receiveDatagram();
     QString recv = QString(datagram.data()).trimmed().toUpper();
     if(!extern_config.redteam_handy)
@@ -124,4 +137,12 @@ void ReceiveCommand::handle_red_command()
             red.dir = Direction::Left;        
     }
 
+}
+
+void ReceiveCommand::handle_timer()
+{
+    blue_command_freq = (blue_receive_counter == 0) ? 0 : 1.0/blue_receive_counter;
+    red_command_freq = (red_receive_counter == 0) ? 0 : 1.0/red_receive_counter;
+    blue_receive_counter = 0;
+    red_receive_counter = 0;
 }

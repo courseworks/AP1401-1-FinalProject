@@ -76,6 +76,9 @@ void MainWindow::update_whole_gui()
 
     ui->label_blueteam_dir->setText(dir_to_text(extern_wm.blue.dir));
     ui->label_redteam_dir->setText(dir_to_text(extern_wm.red.dir));
+
+    ui->label_blueteam_freq->setText(QString::number(receive_command->blue_command_freq) + " Hz");
+    ui->label_redteam_freq->setText(QString::number(receive_command->red_command_freq) + " Hz");
 }
 
 void MainWindow::handle_start_stop_button()
