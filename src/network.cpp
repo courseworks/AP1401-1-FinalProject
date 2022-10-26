@@ -32,15 +32,29 @@ void BroadCast::run()
     main_json.insert("1_score", QJsonValue::fromVariant(blue.score));
     main_json.insert("2_score", QJsonValue::fromVariant(red.score));
 
-    // QJsonArray board_array;
-    // for(const auto& row : board)
-    // {
-    //     QJsonArray row_array;
-    //     for(const auto& cell : row)
-    //         row_array.push_back(cell);
-    //     board_array.push_back(row_array);
-    // }
-    // main_json.insert("board", board_array);
+    QJsonArray blue_heads;
+    auto tmp = blue.head;
+    while(!tmp.empty())
+    {
+        QJsonArray head;
+        head.push_back(tmp.top().x());
+        head.push_back(tmp.top().y());
+        blue_heads.push_back(head);
+        tmp.pop();
+    }
+    main_json.insert("1_heads", blue_heads);
+
+    QJsonArray red_heads;
+    tmp = red.head;
+    while(!tmp.empty())
+    {
+        QJsonArray head;
+        head.push_back(tmp.top().x());
+        head.push_back(tmp.top().y());
+        red_heads.push_back(head);
+        tmp.pop();
+    }
+    main_json.insert("2_heads", red_heads);
 
     QJsonDocument doc(main_json);
     QByteArray dgram = doc.toJson(QJsonDocument::Compact);
