@@ -25,6 +25,7 @@ The platform broadcasts (on the ip and port provided in the *BroadCast* section)
 
 ```json
 {
+    "game_dim":43
     "game_state":"Running",
     "blue":"BLUE",
     "blue_heads":[[21,25],[21,24],[21,23]],

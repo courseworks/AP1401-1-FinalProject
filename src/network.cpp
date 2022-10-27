@@ -16,6 +16,7 @@ void BroadCast::run()
 {
     QJsonObject main_json;
     // game state
+    main_json.insert("game_dim", QJsonValue::fromVariant(extern_config.field_cellnum));
     main_json.insert("game_state", QJsonValue::fromVariant(state_to_text(extern_gamestate)));
 
     // team names
