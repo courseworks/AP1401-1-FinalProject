@@ -39,13 +39,19 @@ void GameGraphic::paintGL()
             painter->setPen(QPen(Qt::black, 1));
             painter->setBrush(Qt::blue);
             if(board[i][j] == 1)
-                painter->drawRect({CVT(i, j), QSizeF(cell_width, -cell_width)});
+                painter->drawRect({CVT(i, j), QSizeF(cell_width, -cell_width)});   
             // red tron
             painter->setPen(QPen(Qt::black, 1));
             painter->setBrush(Qt::red);
             if(board[i][j] == 2) 
                 painter->drawRect({CVT(i, j), QSizeF(cell_width, -cell_width)});
         }
+
+        painter->setPen(QPen(Qt::black, 1));
+        painter->setBrush(Qt::darkBlue);
+        painter->drawRect({CVT(blue.head.top().x(), blue.head.top().y()), QSizeF(cell_width, -cell_width)});
+        painter->setBrush(Qt::darkRed);
+        painter->drawRect({CVT(red.head.top().x(), red.head.top().y()), QSizeF(cell_width, -cell_width)});
 
     painter->end();
 }
