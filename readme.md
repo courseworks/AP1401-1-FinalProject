@@ -1,5 +1,5 @@
-# Advanced Programming Course - Midterm Project
-<p  align="center"> <b>Midterm Project - Fall 2022 Semester <br> Deadline: - </b> </p>
+# Advanced Programming Course - Final Project
+<p  align="center"> <b>Final Project - Fall 2022 Semester <br> Deadline: - </b> </p>
 
 </br>
 
