@@ -17,10 +17,10 @@ void GameGraphic::paintGL()
 {
     painter->begin(this);
 
-    auto pal = this->palette();
-    pal.setColor(QPalette::ColorRole::Base, Qt::white);
-    this->setAutoFillBackground(true);
-    this->setPalette(pal);
+//    auto pal = this->palette();
+//    pal.setColor(QPalette::ColorRole::Base, Qt::white);
+//    this->setAutoFillBackground(true);
+//    this->setPalette(pal);
 
     painter->translate(width() / 2, height() / 2); // bring the reference coordinate to the middle
     painter->scale(scale_ratio, -scale_ratio);
@@ -64,8 +64,8 @@ void GameGraphic::paintGL()
 
 void GameGraphic::initializeGL()
 {
-    // glClearColor(1.0, 1.0, 1.0, 1.0);
-    // glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClearColor(1.0, 1.0, 1.0, 1.0);
+    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void GameGraphic::wheelEvent(QWheelEvent * event)

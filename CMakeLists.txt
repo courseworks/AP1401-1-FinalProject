@@ -17,6 +17,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Network OpenGLWidgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Network OpenGLWidgets)
+find_package(OpenGL REQUIRED)
 
 qt_add_executable(Tron
     MANUAL_FINALIZATION
@@ -34,7 +35,7 @@ qt_add_executable(Tron
     include/network.h # for moc
 )
 
-target_link_libraries(Tron PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network Qt${QT_VERSION_MAJOR}::OpenGLWidgets)
+target_link_libraries(Tron PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network Qt${QT_VERSION_MAJOR}::OpenGLWidgets opengl32)
 
 set_target_properties(Tron PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
